@@ -1,8 +1,8 @@
 <?php
 namespace ExodusCore\Model;
 use ActiveRecord\Model;
-class Races extends Model
+class WorldMobiles extends Model
 {
-    static $table_name = 'races';
+    static $table_name = 'world_mobiles';
 
 }

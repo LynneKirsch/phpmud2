@@ -4,15 +4,18 @@ use ExodusCore\Interfaces\ClientInterface;
 use ExodusCore\Interfaces\PlayerInterface;
 use ExodusCore\Model\Classes;
 use ExodusCore\Model\Equipment;
+use ExodusCore\Model\Mobiles;
 use ExodusCore\Model\PlayerEQ;
 use ExodusCore\Model\Races;
+use ExodusCore\Model\Rooms;
 use ExodusCore\Model\WearSlots;
+use ExodusCore\Model\WorldMobiles;
 
 class Info extends ClientInterface
 {
     public function doEquipmentDisplay()
     {
-        $slots = WearSlots::find('all');
+        $slots = WearSlots::find('all', ['order' => 'display_order ASC']);
         $buf = "";
         $line_format = "[%-10s]";
 
@@ -39,7 +42,7 @@ class Info extends ClientInterface
             $buf .= sprintf($line_format, $padding.$slot->display) . $short . "\n";
         }
 
-        $buf .= "\n You are carrying: \n";
+        $buf .= "\nYou are carrying:\n";
         $buf .= $this->getInventory();
         $this->toChar($this->ch, $buf);
 
@@ -114,5 +117,28 @@ class Info extends ClientInterface
         $buf .= " Players Found: ".$count." \n";
         $buf .= "`a:`b----------------------------------------------------------------------------`a:`` \n";
         $this->ch->send($buf);
+    }
+
+    function doLook()
+    {
+        $room = Rooms::first(['conditions'=> ['id = ?', $this->ch->data()->in_room]]);
+
+        if(!empty($room)) {
+            $buf = $room->name . "\n";
+            $buf.= $room->description . "\n";
+
+            $mobiles = WorldMobiles::find('all', ['conditions' => ['room_id = ?', $this->ch->data()->in_room]]);
+
+            if(!empty($mobiles)) {
+                foreach($mobiles as $world_mobile) {
+                    $base_mobile = Mobiles::first($world_mobile->mobile_id);
+                    if(!empty($base_mobile)) {
+                        $buf .= "`fa ".$base_mobile->name." is here.``\n";
+                    }
+                }
+            }
+
+            $this->ch->send($buf);
+        }
     }
 }

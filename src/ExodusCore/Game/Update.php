@@ -17,11 +17,6 @@ class Update extends ClientInterface
 
     function doTick()
     {
-        // just for now, to keep connection alive.
-        // ping that shit.
-        $players = Player::all();
-        print_r($players);
-
         $this->doRegeneration();
         $this->controlWeather();
     }

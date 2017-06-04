@@ -12,8 +12,8 @@ class Login extends ClientInterface
     public function getName()
     {
         if (!isset($this->ch->tmp_data->name) || is_null($this->ch->tmp_data->name)) {
-
-            $player = Player::first(['name'=>$this->args]);
+            $name = ucfirst($this->args);
+            $player = Player::first(['name'=>$name]);
 
             if (!empty($player)) {
                 $this->ch->tmp_data->player = $player;

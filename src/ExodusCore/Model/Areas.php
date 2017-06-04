@@ -1,8 +1,8 @@
 <?php
 namespace ExodusCore\Model;
 use ActiveRecord\Model;
-class Rooms extends Model
+class Areas extends Model
 {
-    static $table_name = 'rooms';
+    static $table_name = 'areas';
 
 }

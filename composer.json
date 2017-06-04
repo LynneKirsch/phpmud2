@@ -1,0 +1,11 @@
+{
+    "require": {
+        "doctrine/orm": "^2.5",
+        "php-activerecord/php-activerecord": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ExodusCore\\": "src/ExodusCore"
+        }
+    }
+}

@@ -1,11 +1,11 @@
 <?php
 namespace ExodusCore\Utility;
-use ExodusCore\Interfaces\PlayerInterface;
+use ExodusCore\Objects\Player;
 use ExodusCore\Model\Commands;
 
 class Interpret
 {
-    function __construct(PlayerInterface $ch, $args)
+    function __construct(Player $ch, $args)
     {
         $this->ch = $ch;
         $arg_array = explode(' ', $args);

@@ -1,9 +1,9 @@
 <?php
 namespace ExodusCore\Game;
 use ExodusCore\Interfaces\ClientInterface;
-use ExodusCore\Interfaces\PlayerInterface;
+use ExodusCore\Objects\Player;
 use ExodusCore\Model\Classes;
-use ExodusCore\Model\Equipment;
+use ExodusCore\Model\Items;
 use ExodusCore\Model\Mobiles;
 use ExodusCore\Model\PlayerEQ;
 use ExodusCore\Model\Races;
@@ -24,7 +24,7 @@ class Info extends ClientInterface
             $player_eq = PlayerEQ::first(["conditions" => ["player_id = ? AND worn = ?", $this->ch->data()->id, $slot->id]]);
 
             if(!empty($player_eq)) {
-                $eq = Equipment::first(["conditions" => ["id = ?", $player_eq->eq_id]]);
+                $eq = Items::first(["conditions" => ["id = ?", $player_eq->item_id]]);
                 $line_format = "[%-20s] ";
 
                 if(!empty($eq)) {
@@ -63,7 +63,7 @@ class Info extends ClientInterface
         if(!empty($player_inv)) {
             foreach($player_inv as $inv_eq) {
                 $short = null;
-                $eq = Equipment::first(["conditions" => ["id = ?", $inv_eq->eq_id]]);
+                $eq = Items::first(["conditions" => ["id = ?", $inv_eq->eq_id]]);
 
                 if(!empty($eq)) {
                     if(!is_null($inv_eq->short_override)) {
@@ -92,7 +92,7 @@ class Info extends ClientInterface
         $buf .= "`d[`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d]`o Players in this Realm  `d[`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d]`` \n";
         $buf .= "`a:`b----------------------------------------------------------------------------`a:`` \n";
 
-        /* @var $player PlayerInterface */
+        /* @var $player Player */
         foreach($players as $player)
         {
             if($player->conn_state == "CONNECTED")
@@ -127,14 +127,11 @@ class Info extends ClientInterface
             $buf = $room->name . "\n";
             $buf.= $room->description . "\n";
 
-            $mobiles = WorldMobiles::find('all', ['conditions' => ['room_id = ?', $this->ch->data()->in_room]]);
-
-            if(!empty($mobiles)) {
-                foreach($mobiles as $world_mobile) {
-                    $base_mobile = Mobiles::first($world_mobile->mobile_id);
-                    if(!empty($base_mobile)) {
-                        $buf .= "`fa ".$base_mobile->name." is here.``\n";
-                    }
+            $mobiles = $this->getGame()->getWorld()->getRoom($room->id)->mobiles;
+            
+            if(count($mobiles)>0) {
+                foreach ($mobiles as $mobile) {
+                    $buf .= "`fA ". $mobile->name ." is here.``";
                 }
             }
 

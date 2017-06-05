@@ -1,7 +1,7 @@
 <?php
 namespace ExodusCore\Game;
 use ExodusCore\Interfaces\ClientInterface;
-use ExodusCore\Interfaces\PlayerInterface;
+use ExodusCore\Interfaces\Player;
 
 
 class Wiz extends ClientInterface
@@ -18,7 +18,7 @@ class Wiz extends ClientInterface
         $ch_name = $arg_array[0];
         $target = null;
 
-        /* @var $player PlayerInterface */
+        /* @var $player Player */
         foreach($this->getGame()->players as $player) {
             print_r($player->data());
             if($player->data()->name == $ch_name) {

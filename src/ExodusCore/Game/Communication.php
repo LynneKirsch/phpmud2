@@ -1,7 +1,7 @@
 <?php
 namespace ExodusCore\Game;
 use ExodusCore\Interfaces\ClientInterface;
-use ExodusCore\Interfaces\PlayerInterface;
+use ExodusCore\Interfaces\Player;
 
 class Communication extends ClientInterface
 {

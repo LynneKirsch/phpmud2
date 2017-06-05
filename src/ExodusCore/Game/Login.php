@@ -1,11 +1,8 @@
 <?php
 
 namespace ExodusCore\Game;
-
 use ExodusCore\Interfaces\ClientInterface;
-use ExodusCore\Model\Commands;
 use ExodusCore\Model\Player;
-use ExodusCore\Model\PlayerEQ;
 
 class Login extends ClientInterface
 {

@@ -3,7 +3,7 @@ namespace ExodusCore\Utility;
 
 class UI
 {
-    function doPrompt(\ExodusCore\Interfaces\PlayerInterface $ch)
+    function doPrompt(\ExodusCore\Interfaces\Player $ch)
     {
         $max_hit = $ch->max_hit;
         $cur_hit = $ch->cur_hit;

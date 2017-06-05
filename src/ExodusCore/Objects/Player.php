@@ -1,11 +1,11 @@
 <?php
-namespace ExodusCore\Interfaces;
+namespace ExodusCore\Objects;
 use ExodusCore\Model\PlayerEQ;
 use ExodusCore\Model\WearSlots;
 use ExodusCore\Utility\UI;
 use \ActiveRecord\Model;
 use \Ratchet\ConnectionInterface;
-class PlayerInterface
+class Player
 {
     public $client;
     public $conn_state = 'getName';

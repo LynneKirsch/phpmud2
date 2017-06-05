@@ -1,10 +1,8 @@
 <?php
-
 namespace ExodusCore\Game;
-
 use ExodusCore\Interfaces\ClientInterface;
-use ExodusCore\Interfaces\PlayerInterface;
-use ExodusCore\Model\Player;
+use ExodusCore\Model\Mobiles;
+use ExodusCore\Objects\Mobile;
 
 class Update extends ClientInterface
 {
@@ -19,9 +17,13 @@ class Update extends ClientInterface
     {
         $this->doRegeneration();
         $this->controlWeather();
+
+        $mob_model = Mobiles::find(1);
+        $mobile = new Mobile($mob_model, 1);
+        $mobile->spawn();
     }
 
-    function doLevel(PlayerInterface $ch)
+    function doLevel(\ExodusCore\Objects\Player $ch)
     {
         $hp = rand(5, 10);
         $ma = rand(8, 13);
@@ -35,7 +37,7 @@ class Update extends ClientInterface
         $ch->send("You gain a level! You gained: " . $hp . "HP, " . $ma . " MA, and " . $mv . " MV. You are now level " . $ch->data()->level);
     }
 
-    function gainExperience(PlayerInterface $ch, $xp)
+    function gainExperience(\ExodusCore\Objects\Player $ch, $xp)
     {
         $cur_xp = $ch->data()->cur_xp;
         $new_xp = $cur_xp + $xp;
@@ -51,7 +53,7 @@ class Update extends ClientInterface
 
     function doRegeneration()
     {
-        /* @var $player PlayerInterface */
+        /* @var $player \ExodusCore\Objects\Player */
         foreach ($this->getGame()->players as $player) {
             if ($player->conn_state == "CONNECTED") {
                 $cur_hp = $player->data()->cur_hp;
@@ -80,7 +82,7 @@ class Update extends ClientInterface
         $new_weather = $weather_conditions[$num];
 
         if ($num != $current_weather) {
-            /* @var $player PlayerInterface */
+            /* @var $player \ExodusCore\Objects\Player */
             foreach ($this->getGame()->players as $player) {
                 if ($player->conn_state == "CONNECTED") {
                     switch ($new_weather) {
@@ -102,6 +104,7 @@ class Update extends ClientInterface
                     }
                 }
             }
+
             $this->getGame()->weather = $num;
         }
     }

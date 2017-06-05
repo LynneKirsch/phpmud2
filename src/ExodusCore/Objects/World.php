@@ -1,7 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lkirsch
- * Date: 6/5/2017
- * Time: 10:50 AM
- */
+namespace ExodusCore\Objects;
+use ExodusCore\Model\Rooms;
+
+class World
+{
+    public $rooms;
+
+    public function __construct()
+    {
+        $rooms = Rooms::find('all');
+        $world_room_array = [];
+
+        foreach($rooms as $room) {
+            $world_room_array[$room->id] = new Room($room);
+        }
+
+        $this->rooms = $world_room_array;
+    }
+
+    public function getRoom($room_id): Room
+    {
+        if(isset($this->rooms[$room_id])) {
+            return $this->rooms[$room_id];
+        }
+    }
+}

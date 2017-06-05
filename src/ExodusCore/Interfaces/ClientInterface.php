@@ -9,7 +9,7 @@ class ClientInterface
     public $game;
     public $ui;
 
-    function __construct(PlayerInterface $ch = null, $args = null)
+    function __construct(\ExodusCore\Objects\Player $ch = null, $args = null)
     {
         /*
          * I hate this. But I can't think of a better way to get the game/world information
@@ -34,19 +34,19 @@ class ClientInterface
         return $this->ui;
     }
 
-    function getChar():PlayerInterface
+    function getChar():\ExodusCore\Objects\Player
     {
         return $this->ch;
     }
 
-    function toChar(PlayerInterface $player, $payload)
+    function toChar(\ExodusCore\Objects\Player $player, $payload)
     {
         $player->send($payload);
     }
 
     function getTarget($name)
     {
-        /* @var $player PlayerInterface */
+        /* @var $player \ExodusCore\Objects\Player */
         foreach($this->getGame()->players as $player) {
             if($player->data()->name == $name) {
                 return $player;
@@ -58,7 +58,7 @@ class ClientInterface
 
     function toGlobal($payload)
     {
-        /* @var $player PlayerInterface */
+        /* @var $player \ExodusCore\Objects\Player */
         foreach($this->getGame()->players as $player) {
             $player->send($payload);
         }
@@ -66,7 +66,7 @@ class ClientInterface
 
     function toOthersGlobal($payload)
     {
-        /* @var $player PlayerInterface */
+        /* @var $player \ExodusCore\Objects\Player */
         foreach($this->getGame()->players as $player) {
            if($player->client != $this->ch->client) {
                $player->send($payload);

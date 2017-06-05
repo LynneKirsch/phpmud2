@@ -1,6 +1,6 @@
 <?php
 namespace ExodusCore\Objects;
-class Mobile
+class Item
 {
     
 }

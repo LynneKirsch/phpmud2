@@ -1,6 +1,7 @@
 <?php
 namespace ExodusCore\Interfaces;
-use \React\EventLoop\LoopInterface;
+use ExodusCore\Objects\World;
+use React\EventLoop\LoopInterface;
 use Ratchet\ConnectionInterface;
 use ExodusCore\Game\Login;
 use ExodusCore\Game\Update;
@@ -12,15 +13,19 @@ class GameInterface
     public $loop;
     public $players;
     public $weather;
+    public $world;
 
     public function start(LoopInterface $loop)
     {
         $this->setLoop($loop);
+
         $this->update = new Update();
         $this->update->start();
+
+        $this->world = new World();
     }
 
-    public function interpret(PlayerInterface $ch, $args)
+    public function interpret(\ExodusCore\Objects\Player $ch, $args)
     {
         $interpreter = new Interpret($ch, $args);
 
@@ -34,12 +39,12 @@ class GameInterface
 
     public function connect($client)
     {
-        $ch = new PlayerInterface($client);
+        $ch = new \ExodusCore\Objects\Player($client);
         $this->attachPlayer($ch);
         $ch->send("Who dares storm our wayward path?");
     }
 
-    public function attachPlayer(PlayerInterface $player)
+    public function attachPlayer(\ExodusCore\Objects\Player $player)
     {
         $this->players[$player->client->resourceId] = $player;
     }
@@ -59,6 +64,11 @@ class GameInterface
     public function setLoop(LoopInterface $loop)
     {
         $this->loop = $loop;
+    }
+
+    public function getWorld():World
+    {
+        return $this->world;
     }
 
 

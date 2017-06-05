@@ -11,6 +11,18 @@ class Update extends ClientInterface
         $this->game->getLoop()->addPeriodicTimer(45, function () {
             $this->doTick();
         });
+
+        $this->game->getLoop()->addPeriodicTimer(2, function () {
+            $this->doBeat();
+        });
+    }
+
+    function doBeat()
+    {
+        foreach($this->getGame()->getWorld()->players_in_combat as $player) {
+           $combat = new Combat($player);
+           $combat->doRound();
+        }
     }
 
     function doTick()

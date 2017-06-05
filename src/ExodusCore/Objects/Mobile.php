@@ -9,6 +9,8 @@ class Mobile
         $this->description = $mobile->description;
         $this->hp = $mobile->hp;
         $this->in_room = $room_id;
+        $this->FIGHTING_MOB = null;
+        $this->FIGHTING_PLAYER = null;
     }
 
     public function spawn()

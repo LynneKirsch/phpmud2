@@ -17,6 +17,8 @@ class Player
     {
         $this->client = $client;
         $this->tmp_data = new \stdClass();
+        $this->FIGHTING_MOB = null;
+        $this->FIGHTING_PLAYER = null;
     }
 
     function send($data)

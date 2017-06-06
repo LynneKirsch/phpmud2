@@ -19,10 +19,7 @@ class Update extends ClientInterface
 
     function doBeat()
     {
-        foreach($this->getGame()->getWorld()->players_in_combat as $player) {
-           $combat = new Combat($player);
-           $combat->doRound();
-        }
+
     }
 
     function doTick()
@@ -35,7 +32,7 @@ class Update extends ClientInterface
         $mobile->spawn();
     }
 
-    function doLevel(\ExodusCore\Objects\Player $ch)
+    function doLevel(\ExodusCore\Objects\Char $ch)
     {
         $hp = rand(5, 10);
         $ma = rand(8, 13);
@@ -49,7 +46,7 @@ class Update extends ClientInterface
         $ch->send("You gain a level! You gained: " . $hp . "HP, " . $ma . " MA, and " . $mv . " MV. You are now level " . $ch->data()->level);
     }
 
-    function gainExperience(\ExodusCore\Objects\Player $ch, $xp)
+    function gainExperience(\ExodusCore\Objects\Char $ch, $xp)
     {
         $cur_xp = $ch->data()->cur_xp;
         $new_xp = $cur_xp + $xp;
@@ -65,7 +62,7 @@ class Update extends ClientInterface
 
     function doRegeneration()
     {
-        /* @var $player \ExodusCore\Objects\Player */
+        /* @var $player \ExodusCore\Objects\Char */
         foreach ($this->getGame()->players as $player) {
             if ($player->conn_state == "CONNECTED") {
                 $cur_hp = $player->data()->cur_hp;
@@ -94,7 +91,7 @@ class Update extends ClientInterface
         $new_weather = $weather_conditions[$num];
 
         if ($num != $current_weather) {
-            /* @var $player \ExodusCore\Objects\Player */
+            /* @var $player \ExodusCore\Objects\Char */
             foreach ($this->getGame()->players as $player) {
                 if ($player->conn_state == "CONNECTED") {
                     switch ($new_weather) {

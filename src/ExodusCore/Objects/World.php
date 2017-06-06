@@ -5,8 +5,7 @@ use ExodusCore\Model\Rooms;
 class World
 {
     public $rooms;
-    public $players_in_combat;
-    public $mobiles_in_combat;
+    public $in_combat;
 
     public function __construct()
     {

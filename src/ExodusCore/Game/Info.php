@@ -1,7 +1,7 @@
 <?php
 namespace ExodusCore\Game;
 use ExodusCore\Interfaces\ClientInterface;
-use ExodusCore\Objects\Player;
+use ExodusCore\Objects\Char;
 use ExodusCore\Model\Classes;
 use ExodusCore\Model\Items;
 use ExodusCore\Model\Mobiles;
@@ -92,7 +92,7 @@ class Info extends ClientInterface
         $buf .= "`d[`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d]`o Players in this Realm  `d[`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d][`h/`d][`h\`d]`` \n";
         $buf .= "`a:`b----------------------------------------------------------------------------`a:`` \n";
 
-        /* @var $player Player */
+        /* @var $player Char */
         foreach($players as $player)
         {
             if($player->conn_state == "CONNECTED")

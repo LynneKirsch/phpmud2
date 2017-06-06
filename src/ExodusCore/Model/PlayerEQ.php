@@ -6,6 +6,6 @@ class PlayerEQ extends Model
     static $table_name = 'player_eq';
 
     static $belongs_to = array(
-        array('player', 'class_name' => 'Player')
+        array('player', 'class_name' => 'Char')
     );
 }

@@ -25,7 +25,7 @@ class GameInterface
         $this->world = new World();
     }
 
-    public function interpret(\ExodusCore\Objects\Player $ch, $args)
+    public function interpret(\ExodusCore\Objects\Char $ch, $args)
     {
         $interpreter = new Interpret($ch, $args);
 
@@ -39,12 +39,12 @@ class GameInterface
 
     public function connect($client)
     {
-        $ch = new \ExodusCore\Objects\Player($client);
+        $ch = new \ExodusCore\Objects\Char($client);
         $this->attachPlayer($ch);
         $ch->send("Who dares storm our wayward path?");
     }
 
-    public function attachPlayer(\ExodusCore\Objects\Player $player)
+    public function attachPlayer(\ExodusCore\Objects\Char $player)
     {
         $this->players[$player->client->resourceId] = $player;
     }

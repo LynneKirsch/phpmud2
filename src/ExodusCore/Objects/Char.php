@@ -5,7 +5,7 @@ use ExodusCore\Model\WearSlots;
 use ExodusCore\Utility\UI;
 use \ActiveRecord\Model;
 use \Ratchet\ConnectionInterface;
-class Player
+class Char
 {
     public $client;
     public $conn_state = 'getName';
@@ -17,8 +17,7 @@ class Player
     {
         $this->client = $client;
         $this->tmp_data = new \stdClass();
-        $this->FIGHTING_MOB = null;
-        $this->FIGHTING_PLAYER = null;
+        $this->fighting = null;
     }
 
     function send($data)

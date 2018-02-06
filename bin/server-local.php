@@ -18,9 +18,7 @@ class Server implements MessageComponentInterface
         $cfg = ActiveRecord\Config::instance();
         $cfg->set_model_directory('../src/ExodusCore/Model');
         $cfg->set_connections(array('development' => 'sqlite://../bin/exodus.db'));
-
         $this->game = $game;
-        $this->game->start($loop);
 	}
 
     public function onOpen(ConnectionInterface $client)
@@ -30,15 +28,12 @@ class Server implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $client, $args)
     {
-        $UI = new \ExodusCore\Utility\UI();
-        $client->send($UI->colorize(" `k" . $args ."\n``"));
-        $ch = $this->game->players[$client->resourceId];
-		$this->game->interpret($ch, $args);
+        $client->send("ok");
     }
 
     public function onClose(ConnectionInterface $client)
     {
-        $this->game->disconnect($client);
+
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) 
@@ -53,5 +48,10 @@ $game = new GameInterface();
 $loop = LoopFactory::create();
 $socket = new Reactor($loop);
 $socket->listen(9000, 'localhost');
-$server = new IoServer(new HttpServer(new WsServer(new Server($loop, $game))), $socket, $loop);
+$server = new IoServer(
+    new HttpServer(
+        new WsServer(
+            new Server($loop, $game)
+        )
+    ), $socket, $loop);
 $server->run();

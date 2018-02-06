@@ -1,7 +1,8 @@
 {
     "require": {
         "doctrine/orm": "^2.5",
-        "php-activerecord/php-activerecord": "^1.1"
+        "php-di/php-di": "^5.4",
+        "mustache/mustache": "^2.12"
     },
     "autoload": {
         "psr-4": {

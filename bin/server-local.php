@@ -15,9 +15,6 @@ class Server implements MessageComponentInterface
 
     public function __construct(React\EventLoop\LoopInterface $loop, GameInterface $game)
     {
-        $cfg = ActiveRecord\Config::instance();
-        $cfg->set_model_directory('../src/ExodusCore/Model');
-        $cfg->set_connections(array('development' => 'sqlite://../bin/exodus.db'));
         $this->game = $game;
 	}
 
@@ -28,12 +25,12 @@ class Server implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $client, $args)
     {
-        $client->send("ok");
+        $this->game->dispatchCommand($client, $args);
     }
 
     public function onClose(ConnectionInterface $client)
     {
-
+        $client->send("Connection closed.");
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) 
@@ -44,14 +41,13 @@ class Server implements MessageComponentInterface
 
 }
 
-$game = new GameInterface();
 $loop = LoopFactory::create();
-$socket = new Reactor($loop);
-$socket->listen(9000, 'localhost');
+
 $server = new IoServer(
     new HttpServer(
         new WsServer(
-            new Server($loop, $game)
+            new Server($loop, new GameInterface($loop))
         )
-    ), $socket, $loop);
+    ), new Reactor('127.0.0.1:9000', $loop), $loop);
+
 $server->run();
